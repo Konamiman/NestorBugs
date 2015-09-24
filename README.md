@@ -1,8 +1,8 @@
 # What is this?
 
-NestorBugs is a very simple web based bug tracking system for solo developers: it supports one single site administrator and an unlimited number of contributors. Contributors can publish bugs, administrators can edit them and change their state.
+NestorBugs is a very simple web based bug tracking system for solo developers: it supports one single site administrator and an unlimited number of contributors. Contributors can publish bugs, the administrator can edit them and change their state.
 
-It is built in ASP.NET MVC and uses [OpenId](http://openid.net) for user authentication. Ir uses [Elmah](https://code.google.com/p/elmah) for logging its own errors.
+It is built in ASP.NET MVC and uses [OpenId](http://openid.net) for user authentication. It uses [Elmah](https://code.google.com/p/elmah) for logging its own errors.
 
 This is an old project (2011) that was originally hosted in [CodePlex](https://www.codeplex.com); you can read the original readme file (explaining the motivation for starting the project) at the end of this one. If I had to start this project from scratch today, I would have done things differently. For example I would have used [Dapper](https://github.com/StackExchange/dapper-dot-net) instead of Entity Framework, and I would have used [Bootstrap](http://getbootstrap.com/) or a similar framework for the user interface.
 
@@ -55,6 +55,3 @@ My graphic design skills are close to zero, so the site is simple and ugly. If y
 ## Wait... this reminds me of something I have seen before...
 
 This is probably because the look & feel of NestorBugs is heavily inspired on [Stack Overflow](http://stackoverflow.com), the best programmin Q&A site around there. You know, good artists copy and great artists stole, or something... (no, I didn't stole anything from that site, that wouldn't be funny).
-
-
-
