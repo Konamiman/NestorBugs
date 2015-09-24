@@ -1,0 +1,182 @@
+﻿@*
+ViewBag variables used:
+"Title": the page title.
+"MainContentTitle": if not null, a h2 with the value will be rendered immediately below the main menu buttons.
+
+Sections defined:
+"PreHeader": rendered at the top of the file, before the <html> tag.
+"Headers": rendered at the end of the <head> section.
+"Bottom": rendered at the end of the page, immediately before the </body> tag.
+*@
+
+@using System.Text.RegularExpressions;
+@using System;
+@using System.Security.Cryptography;
+@using System.Text;
+@using Konamiman.NestorBugs.CrossCutting.Authorization;
+@using Konamiman.NestorBugs.Web.ApplicationLogic.UserManagement;
+@using Konamiman.NestorBugs.Web.Models;
+@using Konamiman.NestorBugs.CrossCutting.Authorization;
+
+@functions {
+    IServerAuthenticationEngineWrapper formsAuthenticationWrapper =
+            DependencyResolver
+               .Current
+               .GetService<IServerAuthenticationEngineWrapper>();
+
+    IUserImageUrlProvider userImageProvider =
+            DependencyResolver
+               .Current
+               .GetService<IUserImageUrlProvider>();
+
+    IUserViewModelProvider userViewModelProvider =
+        DependencyResolver
+               .Current
+               .GetService<IUserViewModelProvider>();
+
+    string CurrentActionName
+    {
+        get
+        {
+            //FakeController is instantiated by the "NotFound MVC" NuGet package
+            //when an invalid URL is requested.
+            if(ViewContext.Controller.GetType().Name == "FakeController") {
+                return null;
+            }
+            else {
+                return ViewContext.Controller.ValueProvider.GetValue("action").RawValue as string;
+            }
+        }
+    }
+
+    UserViewModel CurrentUserData
+    {
+        get
+        {
+            return userViewModelProvider.GetUserViewModel(formsAuthenticationWrapper.CurrentUserName);
+        }
+    }
+}
+
+@helper MainMenuListItem(string sortName, string text, string tooltip)
+    {
+    if(ViewBag.SortName == sortName) {
+        <li title="@tooltip"><span class="mainMenuCurrent">@text</span></li>
+    }
+    else {
+        <li title="@tooltip">
+            @Html.ActionLink(text, "List", "Bugs", new
+       {
+           sort = sortName
+       }, null)
+        </li>
+    }
+}
+
+@helper HeaderMenuSpan(string actionName, string controllerName, string text, string tooltip)
+    {
+    if(CurrentActionName == actionName) {
+        <span class="mainMenuCurrent" title="@tooltip">@text</span>
+    }
+    else {
+        @Html.ActionLink(text, actionName, controllerName, null, new
+   {
+       title = tooltip
+   })
+    }
+}
+
+
+@RenderSection("PreHeader", false)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    @RenderSection("Headers", false)
+</head>
+<body>
+
+    <div id="container">
+        <div id="content">
+            <div id="header">
+                <div id="headerInfoLeft">
+                    @if(formsAuthenticationWrapper.CurrentUserIsSiteOwner()) {
+                        <a href="@Url.Content("~/admin/elmah")">Error log</a>
+                    }
+                </div>
+
+                <div id="headerInfo">
+                    @if(formsAuthenticationWrapper.IsUserAuthenticated()) {
+                        @:Welcome, <span id="userName">@CurrentUserData.DisplayName</span> 
+                        @HeaderMenuSpan("MyAccount", "Account", "My Account", "My account settings");
+                        @Html.ActionLink("Log Off", "LogOff", "Account")
+                        <img id="userImage" src="@CurrentUserData.ImageUrlSmall"
+                             alt="Gravatar image" />
+                    }
+                    else {
+                        @:Welcome to NestorBugs! You are currently not logged in
+                        @Html.ActionLink("Log On", "LogOn", "Account")
+                        <img id="userImage" src="@userImageProvider.GetUrlForUser(null, UserImageSizes.Small)"
+                             alt="Gravatar image" />
+                    }
+                    @HeaderMenuSpan("Faq", "Home", "FAQ", "Frequently asked questions")
+                </div>
+            </div>
+
+            <div id="main">
+                <div id="menus">
+                    <div id="logo">
+                        <a href="@Url.Action("", "")">
+                            <img src="@Url.Content("~/Content/images/logo_simple.png")" width="240" height="47" />
+                        </a>
+                    </div>
+                    <div id="leftMenu" class="mainMenu">
+                        <ul>
+                            @MainMenuListItem("recent", "Recent", "Bugs sorted by recent activity")
+                            @MainMenuListItem("newest", "Newest", "Bugs sorted by creation date")
+                            @MainMenuListItem("mostvoted", "Most voted", "Bugs sorted by net number of votes")
+                            @MainMenuListItem("mine", "My bugs", "Bugs I have submitted")
+                        </ul>
+                    </div>
+                    <div id="rightMenu" class="mainMenu">
+                        <ul>
+                            <li>@Html.ActionLink("Submit bug", "New", "Bugs")</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <noscript>
+                    <div class="editor-information" id="noScript">
+                        <p>NestorBugs works better with JavaScript enabled</p>
+                    </div>
+                </noscript>
+                
+                <div id="mainContent">
+                    @if(ViewBag.MainContentTitle != null) {
+                        <div id ="mainContentTitleContainer">
+                            <span id="mainContentTitle">@ViewBag.MainContentTitle</span>
+                            <div id="mainContentTitleRight">@ViewBag.MainContentTitleRight</div>
+                        </div>
+                    }
+                </div>
+                @RenderBody()
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <span id="footer-left">
+            NestorBugs v0.00...001 by <a href="http://www.konamiman.com">Konamiman</a>
+        </span>
+        <span id="footer-right">
+            <a href="http://nestorbugs.codeplex.com/">NestorBugs on Codeplex</a>
+        </span>
+    </div>
+
+    <script src="@Url.Content("~/Scripts/jquery-1.6.4.min.js")" type="text/javascript"></script>
+    @RenderSection("Bottom", false)
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Konamiman.NestorBugs.Web.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SiteOwnerOpenId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">konamiman.myopenid.com</Value>
+    </Setting>
+    <Setting Name="UserDataCacheDurationMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="BugDataCacheDurationInMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="FakeBugsCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="FakeUsersCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="BypassOpenIdAuthentication" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FakeDataConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">data source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=NestorBugsFake;Integrated Security=true</Value>
+    </Setting>
+    <Setting Name="ConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">data source=ingenieria.sd-a.com;Initial Catalog=NestorBugs;Integrated Security=false;UserID=sd;Password=cocacola1793</Value>
+    </Setting>
+    <Setting Name="UseFakeData" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

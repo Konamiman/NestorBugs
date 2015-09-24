@@ -1,0 +1,7 @@
+http://weblogs.asp.net/shijuvarghese/archive/2011/01/21/dependency-injection-in-asp-net-mvc-3-using-dependencyresolver-and-controlleractivator.aspx
+
+http://weblogs.asp.net/haithamkhedre/archive/2011/03/13/openid-authentication-with-asp-net-mvc3-dotnetopenauth-and-openid-selector.aspx
+
+http://blogs.microsoft.co.il/blogs/idof/archive/2010/10/03/combining-entity-framework-self-tracking-extensible-metadata-and-data-annotations.aspx
+
+http://blog.davidebbo.com/2011/08/easy-way-to-set-up-nuget-to-restore.html

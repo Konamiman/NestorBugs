@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NestorBugsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="NestorBugsModelStoreContainer">
+    <EntitySet Name="Users" EntityType="NestorBugsModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Bugs" EntityType="NestorBugsModel.Store.Bugs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Applications" EntityType="NestorBugsModel.Store.Applications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BugVotes" EntityType="NestorBugsModel.Store.BugVotes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BugComments" EntityType="NestorBugsModel.Store.BugComments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BugCommentVotes" EntityType="NestorBugsModel.Store.BugCommentVotes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BugEditTokens" EntityType="NestorBugsModel.Store.BugEditTokens" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="BugApplication" Association="NestorBugsModel.Store.BugApplication">
+      <End Role="Bug" EntitySet="Bugs" />
+      <End Role="Application" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="BugUser" Association="NestorBugsModel.Store.BugUser">
+      <End Role="Bug" EntitySet="Bugs" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="BugVoteBug" Association="NestorBugsModel.Store.BugVoteBug">
+      <End Role="BugVote" EntitySet="BugVotes" />
+      <End Role="Bug" EntitySet="Bugs" />
+    </AssociationSet>
+    <AssociationSet Name="BugCommentBug" Association="NestorBugsModel.Store.BugCommentBug">
+      <End Role="BugComment" EntitySet="BugComments" />
+      <End Role="Bug" EntitySet="Bugs" />
+    </AssociationSet>
+    <AssociationSet Name="BugCommentVoteBugComment" Association="NestorBugsModel.Store.BugCommentVoteBugComment">
+      <End Role="BugCommentVote" EntitySet="BugCommentVotes" />
+      <End Role="BugComment" EntitySet="BugComments" />
+    </AssociationSet>
+    <AssociationSet Name="BugBugEditToken" Association="NestorBugsModel.Store.BugBugEditToken">
+      <End Role="Bug" EntitySet="Bugs" />
+      <End Role="BugEditToken" EntitySet="BugEditTokens" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DisplayName" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="1000" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="Url" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="JoinedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bugs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Environment" Type="nvarchar" Nullable="false" MaxLength="2000" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="ApplicationId" Type="int" Nullable="true" />
+    <Property Name="ApplicationName" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="tinyint" Nullable="false" DefaultValue="0" />
+    <Property Name="ApplicationVersion" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="LastEditDate" Type="datetime" Nullable="true" />
+    <Property Name="UrlTitle" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="Locked" Type="bit" Nullable="false" />
+    <Property Name="DuplicateBugId" Type="int" Nullable="true" />
+    <Property Name="LastEditUserId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Applications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="BugVotes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BugId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="IssueDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BugComments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BugId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PostDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BugCommentVotes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BugCommentId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="IsPositive" Type="bit" Nullable="false" DefaultValue="true" />
+    <Property Name="IssueDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BugEditTokens">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="BugId" Type="int" Nullable="false" />
+    <Property Name="Token" Type="nvarchar" Nullable="false" MaxLength="32" />
+  </EntityType>
+  <Association Name="BugApplication">
+    <End Role="Bug" Type="NestorBugsModel.Store.Bugs" Multiplicity="*" />
+    <End Role="Application" Type="NestorBugsModel.Store.Applications" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Application">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bug">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BugUser">
+    <End Role="Bug" Type="NestorBugsModel.Store.Bugs" Multiplicity="*" />
+    <End Role="User" Type="NestorBugsModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bug">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BugVoteBug">
+    <End Role="BugVote" Type="NestorBugsModel.Store.BugVotes" Multiplicity="*" />
+    <End Role="Bug" Type="NestorBugsModel.Store.Bugs" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Bug">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BugVote">
+        <PropertyRef Name="BugId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BugCommentBug">
+    <End Role="BugComment" Type="NestorBugsModel.Store.BugComments" Multiplicity="*" />
+    <End Role="Bug" Type="NestorBugsModel.Store.Bugs" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Bug">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BugComment">
+        <PropertyRef Name="BugId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BugCommentVoteBugComment">
+    <End Role="BugCommentVote" Type="NestorBugsModel.Store.BugCommentVotes" Multiplicity="*" />
+    <End Role="BugComment" Type="NestorBugsModel.Store.BugComments" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="BugComment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BugCommentVote">
+        <PropertyRef Name="BugCommentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BugBugEditToken">
+    <End Role="Bug" Type="NestorBugsModel.Store.Bugs" Multiplicity="1" />
+    <End Role="BugEditToken" Type="NestorBugsModel.Store.BugEditTokens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bug">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BugEditToken">
+        <PropertyRef Name="BugId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NestorBugsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="NestorBugsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="NestorBugsModel.User" />
+          <EntitySet Name="Bugs" EntityType="NestorBugsModel.Bug" />
+          <EntitySet Name="Applications" EntityType="NestorBugsModel.Application" />
+          <EntitySet Name="BugVotes" EntityType="NestorBugsModel.BugVote" />
+          <AssociationSet Name="BugApplication" Association="NestorBugsModel.BugApplication">
+            <End Role="Bug" EntitySet="Bugs" />
+            <End Role="Application" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="BugUser" Association="NestorBugsModel.BugUser">
+            <End Role="Bug" EntitySet="Bugs" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="BugVoteBug" Association="NestorBugsModel.BugVoteBug">
+            <End Role="BugVote" EntitySet="BugVotes" />
+            <End Role="Bug" EntitySet="Bugs" />
+          </AssociationSet>
+          <EntitySet Name="BugComments" EntityType="NestorBugsModel.BugComment" />
+          <AssociationSet Name="BugCommentBug" Association="NestorBugsModel.BugCommentBug">
+            <End Role="BugComment" EntitySet="BugComments" />
+            <End Role="Bug" EntitySet="Bugs" />
+          </AssociationSet>
+          <EntitySet Name="BugCommentVotes" EntityType="NestorBugsModel.BugCommentVote" />
+          <AssociationSet Name="BugCommentVoteBugComment" Association="NestorBugsModel.BugCommentVoteBugComment">
+            <End EntitySet="BugCommentVotes" Role="BugCommentVote" />
+            <End EntitySet="BugComments" Role="BugComment" />
+          </AssociationSet>
+          <EntitySet Name="BugEditTokens" EntityType="NestorBugsModel.BugEditToken" />
+          <AssociationSet Name="BugBugEditToken" Association="NestorBugsModel.BugBugEditToken">
+            <End Role="Bug" EntitySet="Bugs" />
+            <End Role="BugEditToken" EntitySet="BugEditTokens" />
+          </AssociationSet>
+        <a:ExtraNamespaces xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">System.ComponentModel.DataAnnotations
+DataAnnotationsExtensions</a:ExtraNamespaces></EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" ></Property>
+          <Property Type="String" Name="DisplayName" MaxLength="30" Unicode="true" Nullable="false" >
+            <a:Display Name="" GroupName="" Description="" Prompt="" Sortable="True" Editable="True" xmlns:a="http://schemas.microsoft.com/PEM/2009/01" />
+            <pem:Validations xmlns:pem="http://schemas.microsoft.com/PEM/2009/01" Enforcement="None" ><pem:Message ErrorMessage="No mola" /></pem:Validations>
+            <pem:UIHints xmlns:pem="http://schemas.microsoft.com/PEM/2009/01"></pem:UIHints>
+          <a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Display name</a:DisplayName></Property>
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="1000" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">OpenId identifier</a:DisplayName><a:Display Name="" GroupName="" Description="" Prompt="" Sortable="True" Editable="True" xmlns:a="http://schemas.microsoft.com/PEM/2009/01" /><pem:Validations xmlns:pem="http://schemas.microsoft.com/PEM/2009/01" Enforcement="None" /><pem:UIHints xmlns:pem="http://schemas.microsoft.com/PEM/2009/01"></pem:UIHints></Property>
+          <Property Type="String" Name="Email" MaxLength="200" Nullable="true" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Email address</a:DisplayName><a:ExtraAttributes xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Email</a:ExtraAttributes><a:Display Name="" GroupName="" Description="" Prompt="" Sortable="True" Editable="True" xmlns:a="http://schemas.microsoft.com/PEM/2009/01" /><pem:Validations xmlns:pem="http://schemas.microsoft.com/PEM/2009/01" Enforcement="None" /><pem:UIHints xmlns:pem="http://schemas.microsoft.com/PEM/2009/01"></pem:UIHints></Property>
+          <Property Type="String" Name="Url" MaxLength="1000" Nullable="true" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Web page URL</a:DisplayName><a:ExtraAttributes xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Url</a:ExtraAttributes></Property>
+          <Property Type="DateTime" Name="JoinedDate" Nullable="false" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Member since</a:DisplayName></Property>
+          <NavigationProperty Name="Bugs" Relationship="NestorBugsModel.BugUser" FromRole="User" ToRole="Bug" />
+        </EntityType>
+        <EntityType Name="Bug">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Id</a:DisplayName></Property>
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="200" ></Property>
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="10000" ><a:ExtraAttributes xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">DataType(DataType.MultilineText)</a:ExtraAttributes></Property>
+          <Property Type="String" Name="Environment" MaxLength="2000" Nullable="false" ><a:ExtraAttributes xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">DataType(DataType.MultilineText)</a:ExtraAttributes></Property>
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="ApplicationId" Nullable="true" />
+          <Property Type="String" Name="ApplicationName" Nullable="true" MaxLength="200" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Application</a:DisplayName></Property>
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Created</a:DisplayName></Property>
+          <NavigationProperty Name="Application" Relationship="NestorBugsModel.BugApplication" FromRole="Bug" ToRole="Application" />
+          <NavigationProperty Name="User" Relationship="NestorBugsModel.BugUser" FromRole="Bug" ToRole="User" />
+          <NavigationProperty Name="Votes" Relationship="NestorBugsModel.BugVoteBug" FromRole="Bug" ToRole="BugVote" />
+          <NavigationProperty Name="Comments" Relationship="NestorBugsModel.BugCommentBug" FromRole="Bug" ToRole="BugComment" />
+          <Property Type="Byte" Name="Status" Nullable="false" DefaultValue="0" />
+          <Property Type="String" Name="ApplicationVersion" MaxLength="20" Nullable="true" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Application Version</a:DisplayName></Property>
+          <Property Type="DateTime" Name="LastEditDate" Nullable="true" ><a:DisplayName xmlns:a="http://www.konamiman.com/EntityModelExtraAttributes">Last edited</a:DisplayName></Property>
+          <Property Type="String" Name="UrlTitle" MaxLength="200" Nullable="false" />
+          <Property Type="Boolean" Name="Locked" Nullable="false" />
+          <Property Type="Int32" Name="DuplicateBugId" Nullable="true" />
+          <Property Type="Int32" Name="LastEditUserId" Nullable="true" />
+          <NavigationProperty Name="BugEditToken" Relationship="NestorBugsModel.BugBugEditToken" FromRole="Bug" ToRole="BugEditToken" />
+          </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <NavigationProperty Name="Bugs" Relationship="NestorBugsModel.BugApplication" FromRole="Application" ToRole="Bug" />
+        </EntityType>
+        <EntityType Name="BugVote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BugId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="DateTime" Name="IssueDate" Nullable="false" />
+          <NavigationProperty Name="Bug" Relationship="NestorBugsModel.BugVoteBug" FromRole="BugVote" ToRole="Bug" />
+        </EntityType>
+        <Association Name="BugApplication">
+          <End Type="NestorBugsModel.Bug" Role="Bug" Multiplicity="*" />
+          <End Type="NestorBugsModel.Application" Role="Application" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bug">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BugUser">
+          <End Type="NestorBugsModel.Bug" Role="Bug" Multiplicity="*" >
+          </End>
+          <End Type="NestorBugsModel.User" Role="User" Multiplicity="1" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bug">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BugVoteBug">
+          <End Type="NestorBugsModel.BugVote" Role="BugVote" Multiplicity="*" >
+          </End>
+          <End Type="NestorBugsModel.Bug" Role="Bug" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Bug">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BugVote">
+              <PropertyRef Name="BugId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BugComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BugId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="10000" />
+          <Property Type="DateTime" Name="PostDate" Nullable="false" />
+          <NavigationProperty Name="Bug" Relationship="NestorBugsModel.BugCommentBug" FromRole="BugComment" ToRole="Bug" />
+          <NavigationProperty Name="BugCommentVotes" Relationship="NestorBugsModel.BugCommentVoteBugComment" FromRole="BugComment" ToRole="BugCommentVote" />
+        </EntityType>
+        <Association Name="BugCommentBug">
+          <End Type="NestorBugsModel.BugComment" Role="BugComment" Multiplicity="*" />
+          <End Type="NestorBugsModel.Bug" Role="Bug" Multiplicity="1" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Bug">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BugComment">
+              <PropertyRef Name="BugId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BugCommentVote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BugCommentId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Boolean" Name="IsPositive" Nullable="false" DefaultValue="True" />
+          <Property Type="DateTime" Name="IssueDate" Nullable="false" />
+          <NavigationProperty Name="BugComment" Relationship="NestorBugsModel.BugCommentVoteBugComment" FromRole="BugCommentVote" ToRole="BugComment" />
+        </EntityType>
+        <Association Name="BugCommentVoteBugComment">
+          <End Type="NestorBugsModel.BugCommentVote" Multiplicity="*" Role="BugCommentVote" />
+          <End Type="NestorBugsModel.BugComment" Multiplicity="1" Role="BugComment">
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="BugComment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BugCommentVote">
+              <PropertyRef Name="BugCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BugEditToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" ></Property>
+          <Property Type="Int32" Name="BugId" Nullable="false" />
+          <NavigationProperty Name="Bug" Relationship="NestorBugsModel.BugBugEditToken" FromRole="BugEditToken" ToRole="Bug" />
+          <Property Type="String" Name="Token" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <Association Name="BugBugEditToken">
+          <End Type="NestorBugsModel.Bug" Role="Bug" Multiplicity="1" />
+          <End Type="NestorBugsModel.BugEditToken" Role="BugEditToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bug">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BugEditToken">
+              <PropertyRef Name="BugId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NestorBugsModelStoreContainer" CdmEntityContainer="NestorBugsEntities">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bugs">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.Bug)">
+        <MappingFragment StoreEntitySet="Bugs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Environment" ColumnName="Environment" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApplicationVersion" ColumnName="ApplicationVersion" />
+          <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+          <ScalarProperty Name="UrlTitle" ColumnName="UrlTitle" />
+          <ScalarProperty Name="Locked" ColumnName="Locked" />
+          <ScalarProperty Name="DuplicateBugId" ColumnName="DuplicateBugId" />
+          <ScalarProperty Name="LastEditUserId" ColumnName="LastEditUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Applications">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.Application)">
+        <MappingFragment StoreEntitySet="Applications">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BugVotes">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.BugVote)">
+        <MappingFragment StoreEntitySet="BugVotes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BugId" ColumnName="BugId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BugComments">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.BugComment)">
+        <MappingFragment StoreEntitySet="BugComments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BugId" ColumnName="BugId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="PostDate" ColumnName="PostDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BugCommentVotes">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.BugCommentVote)">
+        <MappingFragment StoreEntitySet="BugCommentVotes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BugCommentId" ColumnName="BugCommentId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsPositive" ColumnName="IsPositive" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BugEditTokens">
+      <EntityTypeMapping TypeName="IsTypeOf(NestorBugsModel.BugEditToken)">
+        <MappingFragment StoreEntitySet="BugEditTokens">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="BugId" ColumnName="BugId" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="DatabaseGenerationWorkflow" Value="$(VSEFTools)\DBGen\Generate Migration T-SQL And Deploy.xaml" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="NestorBugsDataModel">
+        <EntityTypeShape EntityType="NestorBugsModel.User" Width="1.625" PointX="0.5" PointY="3.875" Height="2.9417936197916665" />
+        <EntityTypeShape EntityType="NestorBugsModel.Bug" Width="1.75" PointX="3.375" PointY="3.875" Height="4.6725065104166656" />
+        <EntityTypeShape EntityType="NestorBugsModel.Application" Width="1.5" PointX="5.875" PointY="3.5" Height="1.59568359375" />
+        <EntityTypeShape EntityType="NestorBugsModel.BugVote" Width="1.5" PointX="5.875" PointY="6.625" Height="2.1725878906249996" />
+        <AssociationConnector Association="NestorBugsModel.BugApplication">
+          <ConnectorPoint PointX="5.125" PointY="4.485341796875" />
+          <ConnectorPoint PointX="5.875" PointY="4.485341796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="NestorBugsModel.BugUser">
+          <ConnectorPoint PointX="3.375" PointY="5.8462610853040546" />
+          <ConnectorPoint PointX="2.125" PointY="5.8462610853040546" />
+        </AssociationConnector>
+        <AssociationConnector Association="NestorBugsModel.BugVoteBug">
+          <ConnectorPoint PointX="5.875" PointY="7.5862532552083328" />
+          <ConnectorPoint PointX="5.125" PointY="7.5862532552083328" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="NestorBugsModel.BugComment" Width="1.75" PointX="3.375" PointY="0.5" Height="2.5571907552083331" />
+        <AssociationConnector Association="NestorBugsModel.BugCommentBug">
+          <ConnectorPoint PointX="4.2812525" PointY="3.0571907552083331" />
+          <ConnectorPoint PointX="4.2812525" PointY="3.875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="NestorBugsModel.BugCommentVote" Width="1.875" PointX="0.5" PointY="0.5" Height="2.172587890625" />
+        <AssociationConnector Association="NestorBugsModel.BugCommentVoteBugComment">
+          <ConnectorPoint PointX="2.375" PointY="1.6824446614583328" />
+          <ConnectorPoint PointX="3.375" PointY="1.6824446614583328" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="NestorBugsModel.BugEditToken" Width="1.5" PointX="6.875" PointY="1" Height="1.9802864583333339" />
+        <AssociationConnector Association="NestorBugsModel.BugBugEditToken">
+          <ConnectorPoint PointX="5.125" PointY="5.860341796875" />
+          <ConnectorPoint PointX="7.90625" PointY="5.860341796875" />
+          <ConnectorPoint PointX="7.90625" PointY="2.9802864583333339" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

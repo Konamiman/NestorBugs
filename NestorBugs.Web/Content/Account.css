@@ -1,0 +1,51 @@
+﻿input[type="text"]
+{
+	width: 20em;
+}
+
+.editor-label
+{
+	font-size: larger;
+	font-weight: bold;
+	padding-top: 5px;
+	color: Black;
+}
+
+.field-explanation
+{
+	font-style: italic;
+}
+
+#info-and-image 
+{
+	position: relative;
+	overflow: hidden;
+}
+
+#info
+{
+	float: left;
+}
+
+#image
+{
+	float: right;
+}
+
+#image div
+{
+	text-align: center;
+}
+
+img 
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#gravatar-info
+{
+	font-weight: normal;
+	font-style: italic;
+	font-size: medium;
+}

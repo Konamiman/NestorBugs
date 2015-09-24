@@ -1,0 +1,73 @@
+﻿@using System.Web.Mvc
+@using System.Web.Routing
+
+@helper DisplayPager(UrlHelper url, int currentPage, int totalPages, RouteValueDictionary routeValues = null)
+{
+    if(totalPages == 1) {
+        return;
+    }
+    
+    <div class="pager">
+
+    @if(routeValues == null) {
+        routeValues = new RouteValueDictionary();
+    }
+    
+    @if(currentPage != 1) {
+        routeValues["page"] = currentPage - 1;
+        <a href="@url.Action(null, routeValues)" title="Go to page @(currentPage - 1)"><span>prev</span></a>
+    }
+    
+    @if(totalPages < 10) {
+        @BlockOfPageLinkBoxes(url, 1, totalPages, currentPage, routeValues)
+    }
+    else {
+        if(currentPage <= 4) {
+            @BlockOfPageLinkBoxes(url, 1, 5, currentPage, routeValues)
+            @Dots()
+            @PageLinkBox(url, totalPages, currentPage, routeValues)
+        }
+        else if(currentPage >= totalPages - 3) {
+            @PageLinkBox(url, 1, currentPage, routeValues)
+            @Dots()
+            @BlockOfPageLinkBoxes(url, totalPages - 4, totalPages, currentPage, routeValues)
+        }
+        else {
+            @PageLinkBox(url, 1, currentPage, routeValues)
+            @Dots()
+            @BlockOfPageLinkBoxes(url, currentPage - 2, currentPage + 2, currentPage, routeValues)
+            @Dots()
+            @PageLinkBox(url, totalPages, currentPage, routeValues)
+        }
+    }
+    
+    @if(currentPage != totalPages) {
+        routeValues["page"] = currentPage + 1;
+        <a href="@url.Action(null, routeValues)" title="Go to page @(currentPage + 1)"><span>next</span></a>
+    }
+
+    </div>
+}
+
+@helper PageLinkBox(UrlHelper url, int pageToAdd, int currentPage, RouteValueDictionary routeValues = null)
+    {
+        if(pageToAdd == currentPage) {
+            <span class="pagerCurrentPageNumber">@pageToAdd</span>
+        }
+        else {
+            routeValues["page"] = pageToAdd;
+            <a href="@url.Action(null, routeValues)" title="Go to page @pageToAdd"><span class="pagerPageNumber">@pageToAdd</span></a>
+        }
+}
+
+@helper Dots()
+{
+    <span>...</span>
+}
+
+@helper BlockOfPageLinkBoxes(UrlHelper url, int first, int last, int currentPage, RouteValueDictionary routeValues = null)
+{
+    for(int i = first; i <= last; i++) {
+        @PageLinkBox(url, i, currentPage, routeValues)
+    }
+}

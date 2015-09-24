@@ -1,0 +1,145 @@
+﻿@model Konamiman.NestorBugs.Web.Models.BugDetailsViewModel
+@using Konamiman.NestorBugs.Web.ApplicationLogic.BugManagement
+@using Konamiman.NestorBugs.CrossCutting.Misc
+@{
+    ViewBag.Title = Model.Bug.Title + " - NestorBugs";
+}
+
+@helper UserNameAndUrl(string userName, string userUrl)
+{
+    if(userUrl == null) {
+        @userName
+    }
+    else {
+        <a href="@userUrl" rel="nofollow">@userName</a>
+    }
+}
+
+@helper PrettyDateSpan(DateTime date)
+{
+    <span title="@date.ToString("yyyy-MM-dd hh:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture)">
+        @PrettyDateProvider.GetPrettyDate(date)
+    </span>
+}
+
+@section Bottom {
+    @if(Model.UserIsLoggedIn && !Model.Bug.Locked) {
+        
+        <script type="text/javascript">
+<!--
+            var votesCount = @Model.VotesCount;
+
+            $("#bugVoteArrow").click(function () {
+                var prevBugCount = @Model.VotesCount;
+                $.ajax({
+                    url: '@Url.Action("VoteBug")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: 'bugId=@Model.Bug.Id',
+                    beforeSend: function() {
+                        $("#bugVoteCount").text('...');
+                        document.body.style.cursor = "wait";
+                    },
+                    success: function (data) {
+                        document.body.style.cursor = "default";
+                        if(data.result == 'ok') {
+                            votesCount = data.votes;
+                            if(data.voted == true) {
+                                $("#bugVoteArrowImg").attr("title", "You have voted this bug. Click here to undo.");
+                                $("#bugVoteArrowImg").attr("src", '@Url.Content("~/Content/images/ArrowUpGlossy.PNG")');
+                            } else {
+                                $("#bugVoteArrowImg").attr("title", "Click here to vote for this bug.");
+                                $("#bugVoteArrowImg").attr("src", '@Url.Content("~/Content/images/ArrowUpGlossy_gray.PNG")');
+                            }
+                        } else {
+                            alert("Yout vote could not be casted.");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        document.body.style.cursor = "default";
+                        alert("Your vote could not be casted. Error when talking to server.");
+                    },
+                    complete: function() {
+                        $("#bugVoteCount").text(votesCount);
+                    }
+                });
+              });
+-->
+        </script>
+    }
+}
+
+<div class="bugDetailsContent">
+
+    @if(Model.Bug.DuplicateBugId.HasValue) {
+        <div class="info-box">
+            <h3>Duplicate bug</h3>
+            <p>This bug is an exact duplicate of @Html.ActionLink(Model.DuplicateBugTitle, null, new
+                                            {
+                                                id = Model.DuplicateBugUrlTitle
+                                            })</p>
+        </div>
+    }
+
+    @if(Model.Bug.Locked) {
+        <div class="info-box">
+            <h3>This bug is locked</h3>
+            <p>No new edits, comments or votes are allowed for this bug.</p>
+        </div>
+    }
+
+    <div class="bugDetailsMainInfo">
+        <div class="bugVote">
+            <div class="bugVoteArrow" id="bugVoteArrow">
+            @if(Model.UserIsLoggedIn && !Model.Bug.Locked) {
+                <img id="bugVoteArrowImg" src="@Url.Content("~/Content/images/" + (Model.CurrentUserHasVotedThisBug ? "ArrowUpGlossy.PNG" : "ArrowUpGlossy_gray.PNG"))"
+                     title="@(Model.CurrentUserHasVotedThisBug ? "You have voted this bug. Click here to undo." : "Click here to vote for this bug")" />
+            }
+            </div>
+            <div class="bugVoteCount" id="bugVoteCount">@Model.VotesCount</div>
+            <div class="bugVoteCountVotes">votes</div>
+        </div>
+        <div class="bugTitleAndMainInfo">
+            <div class="bugTitle">@Model.Bug.Title</div>
+            <div class="bugAppName"><span class="smallTitle">Application:</span> @Model.ApplicationName @(Model.Bug.ApplicationVersion ?? "")</div>
+            <div class="bugCreatedBy">
+                <span class="noBold">Created</span> @PrettyDateSpan(Model.Bug.CreationDate)
+                <span class="noBold">by</span> @UserNameAndUrl(Model.CreatorDisplayName, Model.CreatorUrl)
+                <img src="@Model.CreatorImageUrl" />
+            </div>
+            <div class="bugStatus"><span class="smallTitle">Status:</span> @(((BugStatus)Model.Bug.Status).GetDisplayText())</div>
+            @if(Model.BugHasEdits) {
+                <div class="bugEditedBy">
+                    <span class="noBold">Edited</span> @PrettyDateSpan(Model.Bug.LastEditDate.Value) 
+                    <span class="noBold">by</span> @UserNameAndUrl(Model.LastEditorDisplayName, Model.LastEditorUrl)
+                    <img src="@Model.LastEditorImageUrl" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <h3 class="bugDetailsSectionTitle">Description</h3>
+    <div class="bugDetailsLongtext">
+    @Html.Raw(Model.BugDescriptionHtml)
+    </div>
+
+    <h3 class="bugDetailsSectionTitle">Environment</h3>
+    <div class="bugDetailsLongtext">
+    @Html.Raw(Model.BugTestingEnvironmentHtml)
+    </div>
+
+    <div class="mainMenu" id="bugDetailsBottomMenu">
+    <ul>
+    @if(Model.CurrentUserCanEditBug) {
+        <li>@Html.ActionLink("Edit this bug", "Edit", new { id = Model.Bug.UrlTitle })</li>
+    }
+    @*
+    @if(HttpContext.Current.Request.UrlReferrer != null) {
+        <li><a id="bugReturnToList" href="@HttpContext.Current.Request.UrlReferrer.AbsoluteUri">Return to bugs list</a></li>
+    }*@
+    </ul>
+
+    </div>
+
+</div>
+

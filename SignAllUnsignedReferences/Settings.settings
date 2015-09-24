@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Konamiman.SignAllUnsignedReferences" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SolutionFolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">..\</Value>
+    </Setting>
+    <Setting Name="KeyFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">..\|SolutionName|.snk</Value>
+    </Setting>
+    <Setting Name="IldasmPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,817 @@
+﻿body
+{
+	/*font-family: Arial, Helvetica, sans-serif;*/
+	font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif, Arial;
+	margin: 0px;
+	background: none repeat scroll 0 0
+}
+
+div
+{
+	vertical-align: middle;
+	--border: 1px solid LightGray;
+}
+
+div#logo 
+{
+	float: left;
+	padding-top: 0.7em;
+	padding-right: 5em;
+}
+
+div#header
+{
+	background-color: #e0e0e0;
+	overflow: hidden;
+}
+
+div#logo h1
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+div#headerInfoLeft
+{
+	float: left;
+	padding: 0.2em 0em 0.8em 0em;
+	margin-top: 0.8em;
+	margin-left: 0.4em;
+}
+
+div#headerInfo
+{
+	float: right;
+	padding: 0.2em 0em 0.8em 0em;
+}
+
+#headerInfo a, .mainMenu a, #headerInfoLeft a
+{
+	background: #5070ff;
+	color: White;
+	font-weight: bold;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+#headerInfo a, #headerInfo span, #headerInfoLeft a
+{
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+span#userName
+{
+	font-weight: bold;
+	padding-right: 1em;
+	margin-left: 0em;
+	padding-left: 0em;
+}
+
+
+#userImage
+{
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	vertical-align: bottom;
+	border: 1px solid Gray;
+	position: relative;
+	bottom: -0.4em;
+	margin-left: 0.5em;
+}
+
+#headerInfo *:last-child
+{
+	margin-left: 5em;
+	margin-right: 1em;
+}
+
+.mainMenu a:hover, #headerInfo a:hover, #headerInfoLeft a:hover
+{
+	background: #2040ff;
+}
+
+.mainMenu a
+{
+	font-weight: normal;
+}
+
+a
+{
+	color: Blue;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+div#main
+{
+	margin: 2em 1em 1em 1em;
+}
+
+div#menus
+{
+	overflow: hidden;
+}
+
+div#leftMenu
+{
+	float:left;
+}
+
+div#rightMenu
+{
+	float: right;
+}
+	
+
+div.mainMenu ul
+{
+	margin-left: 0;
+	padding-left: 0;
+	white-space: nowrap;
+}
+
+div.mainMenu li
+{
+	list-style-type: none;
+	display: inline;
+}
+
+.mainMenu a, .mainMenu span
+{
+	padding: 0.5em;
+	font-size: 1.5em;
+	margin-right: 0.5em;
+}
+
+
+.mainMenuCurrent
+{
+	background: White;
+	font-weight: bold;
+	color: Black;
+	border: 1px solid black;
+}
+
+#mainContent
+{
+	margin-top: 3em;
+}
+
+#mainContentTitleContainer
+{
+	border-bottom: 1px solid black;
+	overflow: hidden;
+	margin-bottom: 0px;
+	padding-bottom: 0.3em;
+}
+
+#mainContentTitle
+{
+	float: left;
+	vertical-align: bottom;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#mainContentTitleRight
+{
+	color: Gray;
+	float: right;
+	vertical-align: bottom;
+	padding-top: 0.5em;
+}
+
+.editor-information
+{
+	background: #E4F5E6 url(images/Information.png) left center no-repeat;
+	background-position: 10px 10px;
+	border: 1px dotted green;
+	padding-top: 0px;
+	padding-left: 0px;
+	width: 70%;
+	display: none;
+}
+
+.editor-information p
+{
+	margin-left: 50px;
+}
+
+.editor-information ul li
+{
+    margin-left: 2em;
+    padding-bottom: 0.3em;
+}
+
+#noScript
+{
+	display: block;
+	margin-top: 1em;
+	width: 100%;
+}
+
+.italic
+{
+	font-style: italic;
+}
+
+.noBold
+{
+	font-weight: normal; 
+}
+
+#footer-left
+{
+	float: left;
+}
+
+#footer-right
+{
+	float: right;
+}
+
+
+/* Bug summary
+----------------------------------------------------------*/
+
+.bugSummaries
+{
+
+}
+
+
+.bugSummary
+{
+	width: 100%;
+	border-bottom: 1px solid gray;
+	--padding: 0.3em;
+	overflow: hidden;
+	padding-top: 1.5em;
+	--margin-bottom: 1em;
+}
+
+.bugSummary-closed
+{
+	background: #e8e8fF;
+}
+
+.bugSummary-active
+{
+	background: #FBe9d9;
+}
+
+.bugSummary div
+{
+	float: left;
+	margin: 0 0 0.7em 0;
+	--border: 1px solid gray;
+}
+
+.bugSummary .smallDiv
+{
+	width: 7%;
+	padding: 0.2em 0.2em 0.2em 0.2em;
+}
+
+.bugSummary .smallDiv:nth-of-type(2)
+{
+	background-color: #d0d0d0;
+}
+
+.bugSummary .smallDiv div
+{
+	display: inline;
+	margin: 0px;
+	padding: 0.2em 0 0.2em 0;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+}
+
+.bugSummaryClosed .smallDiv div
+{
+	font-weight: normal;
+}
+
+.bugSummary-VotesCount, .bugSummary-VotesCountLabel
+{
+	color: olive;
+}
+
+.bugSummary-VotesCount, .bugSummary-CommentsCount
+{
+	font-size: 2em;
+}
+
+.bugSummary-CommentsCount, .bugSummary-CommentsCountLabel
+{
+	color: Navy;
+}
+
+.bugSummary .mainDiv
+{
+	width: 80%;
+	margin-left: 1.5em;
+	padding: 0;
+}
+
+.bugSummary-title, .bugSummary-title-closed, .bugSummary-title-active
+{
+	font-size: 1.7em;
+	padding-top: 0;
+	width: 80%;
+	--line-height: 1em;
+	margin-top: 0;
+	line-height: 1em;
+}
+
+.bugSummary-title, .bugSummary-title a, .bugSummary-title-active a
+{
+	color: Teal;
+}
+
+.bugSummary-title-closed, .bugSummary-title-closed a
+{
+	color: #606060;
+	font-weight: normal;
+	font-style: italic;
+}
+
+.bugSummary-title-active, .bugSummary-title-active a
+{
+	font-weight: bold;
+}
+
+
+.bugSummary-title a:hover
+{
+	color: #005858;
+	text-decoration: underline;
+}
+
+.bugSummary-title-closed a:hover, .bugSummary-title-active a:hover
+{
+	text-decoration: underline;
+}
+
+.bugSummary-state
+{
+	float: right;
+	display: inline;
+	text-align: right;
+	width: 20%;
+	font-style: italic;
+	color: #303030;
+	display: inline;
+	padding-top: 0.3em;
+}
+
+.bugSummary-application, .bugSummary-application-active, .bugSummary-application-closed
+{
+	clear: left;
+	font-weight: bold;
+	width: 50%;
+	padding-top: 0.7em;
+}
+
+.bugSummary-application-closed
+{
+	font-weight: normal;
+}
+
+.bugSummary-creator
+{
+	float: right;
+	text-align: right;
+	width: 50%;
+	color: #505050;
+	font-weight: bold;
+}
+
+.bugSummary-creator img
+{
+	margin-left: 1em;
+	vertical-align: bottom;
+}
+
+.bugSummraryDate a
+{
+	color: inherit;
+}
+
+.bugSummraryDate a:hover
+{
+	text-decoration: underline;
+}
+
+
+/* Pager
+----------------------------------------------------------*/
+
+.pager
+{
+	color: Gray;
+	font-weight: bold;
+	font-size: large;
+	margin-top: 1em;
+}
+
+.pager span
+{
+	display: inline;
+}
+
+.pager a
+{
+	color: inherit;
+}
+
+.pager a:hover
+{
+	text-decoration: underline;
+}
+
+.pagerPageNumber, .pagerCurrentPageNumber
+{
+	padding: 0.2em;
+	padding-right: 0.3em;
+	margin-right: 0.1em;
+	margin-left: 0.1em;
+	border: 1px solid Gray;
+}
+
+.pagerCurrentPageNumber
+{
+	Color: White;
+	Background: Gray;
+}
+
+
+/* CODE FROM: http://www.lwis.net/journal/2008/02/08/pure-css-sticky-footer/ */
+html, body, #container { height: 100%; }
+body > #container { height: auto; min-height: 100%; }
+#footer {
+ clear: both;
+ position: relative;
+ z-index: 10;
+ height: 3em;
+ margin-top: -3em;
+}
+#content { padding-bottom: 3em; }
+/* end */
+
+
+#footer
+{
+	background-color: #e0e0e0;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+#footer span
+{
+	padding-top: 0.7em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+input[type="text"], 
+input[type="password"] {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.2em;
+    color: #444;
+    width: 200px;
+}
+
+select {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.2em;
+    color: #444;
+}
+
+input[type="submit"] {
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+
+table {
+    border: solid 1px #e8eef4;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 5px;
+    border: solid 1px #e8eef4;
+}
+
+table th {
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e8eef4;
+    border: solid 1px #e8eef4;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+.clear {
+    clear: both;
+}
+
+.error {
+    color: Red;
+}
+
+nav, 
+#menucontainer {
+    margin-top: 40px;
+}
+
+div#title {
+    display: block;
+    float: left;
+    text-align: left;
+}
+
+#logindisplay {
+    font-size: 1.1em;
+    display: block;
+    text-align: right;
+    margin: 10px;
+    color: White;
+}
+
+#logindisplay a:link {
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:visited {
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #ff0000;
+    font-size: medium;
+    font-weight: normal;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.display-label, 
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.pre-editor-information-link
+{
+	vertical-align: middle;
+}
+
+.display-field, 
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+.text-box {
+    width: 30em;
+}
+
+.text-box.multi-line {
+    height: 6.5em;
+}
+
+.tri-state {
+    width: 6em;
+}
+
+/* Bug details
+----------------------------------------------------------*/
+
+.info-box {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-color: #FEEFB3;
+    color: #9F6000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.info-box p
+{
+	color: #303030;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.info-box a:hover
+{
+	text-decoration: underline;
+}
+
+.bugVoteCount, .bugVoteCountVotes
+{
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	color: Gray;
+}
+
+.bugVoteCountVotes
+{
+	font-size: 1em;
+	margin-left: 0.3em;
+}
+
+.bugVoteArrow
+{
+	text-align: center;
+	padding-left: 0.3em;
+}
+
+.bugVote
+{
+	width: 10%;
+	--border: 1px solid black;
+	float: left;
+}
+
+.bugTitleAndMainInfo
+{
+	float: left;
+	margin-left: 1.5em;
+	margin-top: -0.5em;
+	margin-bottom: 2em;
+	width: 85%;
+}
+
+.bugTitleAndMainInfo div:not(.bugTitle)
+{
+	padding-top: 0.0em;
+}
+
+.bugStatus, .bugAppName
+{
+	font-size: 1.2em;
+	float: left;
+	clear: left;
+}
+
+.bugDetailsMainInfo
+{
+	margin-top: 2em;
+	margin-left: -1.5em;
+}
+
+.bugTitle
+{
+	margin-bottom: 0.8em;
+	font-size: 1.5em;
+	color: Maroon;
+}
+
+.smallTitle
+{
+	font-weight: bold;
+}
+
+.bugCreatedBy, .bugEditedBy
+{
+	text-align: right;
+	font-size: 1em;
+	color: #505050;
+	font-weight: bold;
+}
+
+.bugCreatedBy
+{
+	margin-top: -0.4em;
+}
+
+.bugTitleAndMainInfo img
+{
+	margin-left: 1em;
+	margin-top: 0.3em;
+	vertical-align: text-bottom;
+}
+
+.noBold
+{
+	font-weight: normal;
+}
+
+.bugDetailsSectionTitle
+{
+	margin-top: 1em;
+	border-top: 1px dotted #505050;
+	border-bottom: 1px dotted #505050;
+	background: #f0f0f0;
+	clear: both;
+}
+
+.bugDetailsLongtext
+{
+	margin-bottom: 3em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+#bugReturnToList
+{
+	color: #000080;
+	background: inherit;
+	
+}
+
+#bugReturnToList:hover
+{
+	text-decoration: underline;
+}
+	
+
+#bugDetailsBottomMenu
+{
+	padding-top: 0.5em;
+}
+
+.faqQuestion
+{
+	border-bottom: 1px solid darkgray;
+	border-top: 1px solid darkgray;
+	background: #f8f8f8;
+	margin-top: 2em;
+	font-size: 1.3em;
+}
+
+.faqExampleBlock
+{
+	margin-left: 1em;
+	background-color: #f0f0ff;
+	width: 50%;
+}
+

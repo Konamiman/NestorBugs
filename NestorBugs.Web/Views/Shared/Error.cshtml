@@ -1,0 +1,10 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Elmah.ErrorLog.GetDefault(HttpContext.Current).Log(new Elmah.Error(Model.Exception, HttpContext.Current));
+}
+
+<h2>
+    Sorry, an error occurred while processing your request.
+</h2>

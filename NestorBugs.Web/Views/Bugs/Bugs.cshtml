@@ -1,0 +1,107 @@
+﻿@*
+ViewBag variables used:
+"SortName": value of the "sort" parameter in the query string
+"Page": current page index
+"PageCount": count available bug summary pages
+*@
+
+@model IEnumerable<BugSummaryViewModel>
+@using Konamiman.NestorBugs.Web.Models
+@using Konamiman.NestorBugs.Web.ApplicationLogic.BugManagement
+@using Konamiman.NestorBugs.CrossCutting.Misc
+@using Konamiman.NestorBugs.Web.ApplicationLogic.Auxiliary
+@{
+    ViewBag.Title = "Bugs - NestorBugs";
+}
+
+@helper BugStatusDescription(BugSummaryViewModel bug)
+    {
+        var status = (BugStatus)bug.Status;
+        @status.GetDisplayText()
+}
+
+@helper DateAndUser(BugSummaryViewModel bug)
+    {
+    DateTime date;
+    string createdOrModified;
+
+    if(ViewBag.SortName == "newest") {
+        createdOrModified = "Created";
+        date = bug.CreationDate;
+    }
+    else {
+        createdOrModified = "Modified";
+        date = bug.LastEditDate ?? bug.CreationDate;
+    }
+    
+    <span class="noBold">@createdOrModified</span>
+    <span title="@date.ToString("yyyy-MM-dd hh:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture)" class="bugSummraryDate">
+        @BugDetailsLink(bug, PrettyDateProvider.GetPrettyDate(date))
+    </span>
+    <span class="noBold">by</span>
+    if(bug.UserUrl == null) {
+        @bug.UserName
+    }
+    else {
+        <a href="@bug.UserUrl" rel="nofollow">@bug.UserName</a>
+    }
+    <img src="@bug.UserImageUrl" alt="User avatar" />
+}
+
+@helper BugDetailsLink(BugSummaryViewModel bug, string linkText)
+    {
+    @Html.ActionLink(linkText, "View", new
+{
+    id = bug.UrlTitle
+})
+}
+
+
+ <div id="bugSummaries">
+ @if(Model.Count() == 0 && ViewBag.SortName == "mine") {
+     @:You have submitted no bugs yet. @Html.ActionLink("Submit a bug", "New", "Bugs")
+ }
+@foreach(var bug in Model) {
+         string suffix = "";
+         string extraClass = "";
+         if(bug.IsClosed) { suffix = "-closed"; extraClass = " bugSummary-closed"; }
+         else if(bug.IsActive) { suffix = "-active"; ; extraClass = " bugSummary-active";}
+     
+  <div class="bugSummary@(extraClass)">
+      <div class="smallDiv">
+          <div class="bugSummary-VotesCount">
+              @bug.VoteCount
+          </div>
+          <div class="bugSummary-VotesCountLabel">
+              votes
+          </div>
+      </div>
+      <div class="smallDiv">
+          <div class="bugSummary-CommentsCount">
+              @bug.CommentCount
+          </div>
+          <div class="bugSummary-CommentsCountLabel">
+              comments
+          </div>
+      </div>
+      <div class="mainDiv">
+          <div class="bugSummary-title@(suffix)">
+              @BugDetailsLink(bug, bug.Title)
+          </div>
+          <div class="bugSummary-state">
+              @BugStatusDescription(bug)
+          </div>
+          <div class="bugSummary-application@(suffix)">
+              @bug.ApplicationName
+          </div>
+          <div class="bugSummary-creator">
+              @DateAndUser(bug)
+          </div>
+      </div>
+  </div>
+}
+</div>
+
+@if(Model.Count() != 0) {
+    @Pager.DisplayPager(Url, (int)ViewBag.Page, (int)ViewBag.PageCount, new RouteValueDictionary() {{"sort", ViewBag.SortName}})
+}

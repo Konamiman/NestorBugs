@@ -1,0 +1,156 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Data.Metadata.Edm" #>
+
+<#+
+public class ExtraEdmxAttributesHelper
+{
+	private readonly EdmItemCollection itemsCollection;
+	private readonly Action<string> Write;
+	const int INDENT_SIZE = 4;
+	
+	public ExtraEdmxAttributesHelper(Action<string> writer)
+	{
+		this.Write = writer;
+	}
+
+	#region Extra namespaces
+	
+	public void WriteExtraUsings(EntityContainer container, int indentLevel = -1)
+	{
+		var usings = GetExtraNamespaces(container).Select(n => "using " + n + ";").ToArray();
+		WriteLines(usings, indentLevel);
+	}
+		
+	public string[] GetExtraNamespaces(EntityContainer container)
+	{
+		var namespaces = SplitInLines(GetMetadataValue(container, "ExtraNamespaces"));
+		return namespaces.ToArray();
+	}
+
+	#endregion
+	
+	#region Extra attributes
+	
+	public string[] GetExtraAttributes(MetadataItem entity)
+	{
+		var extraAttributes = SplitInLines(GetMetadataValue(entity, "ExtraAttributes"));
+		var displayAttribute = GetMetadataValue(entity, "DisplayName");
+		if(displayAttribute != "") {
+			displayAttribute = string.Format("Display(Name=\"{0}\")", displayAttribute);
+			extraAttributes = extraAttributes.Concat(new String[] {displayAttribute}).ToArray();
+		}
+		
+		return extraAttributes;
+	}
+	
+	public void WriteExtraAttributes(MetadataItem entity, int indentLevel = -1)
+	{
+		var attributes = GetExtraAttributes(entity).Select(a => "[" + a + "]").ToArray();
+		WriteLines(attributes, indentLevel);
+	}
+	
+	#endregion
+	
+	#region Validation attributes
+	
+	public bool MustAutogenerateValidationAttributes(EdmProperty item)
+	{
+		bool value = true;
+		if(bool.TryParse(GetMetadataValue(item, "AutoGenerateValidationAttributes"), out value))
+		{
+			return value;
+		}
+		return true;
+	}
+	
+	public string[] GetValidationAttributes(EdmProperty item, bool force = false)
+	{
+		if(!force && !MustAutogenerateValidationAttributes(item) || !(item.TypeUsage.EdmType is PrimitiveType)) {
+			return new String[0];
+		}
+		
+		List<string> attributes = new List<string>();
+		int maxLength = 0;	
+		
+		if(!item.Nullable)
+		{
+			attributes.Add("Required");
+		}
+		
+        if (ClrType(item.TypeUsage) == typeof(string) &&
+			item.TypeUsage.Facets["MaxLength"] != null &&
+			item.TypeUsage.Facets["MaxLength"].Value != null &&
+			Int32.TryParse(item.TypeUsage.Facets["MaxLength"].Value.ToString(), out maxLength))		
+		{
+			attributes.Add(string.Format("StringLength({0})",maxLength));
+		}
+		
+		return attributes.ToArray();
+	}
+	
+	public void WriteValidationAttributes(EdmProperty item, int indentLevel = -1, bool force = false)
+	{
+		var attributes = GetValidationAttributes(item, force).Select(a => "[" + a + "]").ToArray();
+		WriteLines(attributes, indentLevel);
+	}
+	
+	#endregion
+	
+	private Type ClrType(TypeUsage typeUsage)
+    {
+        if (typeUsage.EdmType is PrimitiveType)
+        {
+            return ((PrimitiveType)typeUsage.EdmType).ClrEquivalentType;
+        }
+
+        return typeof(object);
+    }
+	
+	private string GetMetadataValue(MetadataItem objectWithMetadata, string metadataName)
+	{
+		if(objectWithMetadata == null) {
+			return "";
+		}
+		
+		var metadata = objectWithMetadata
+			.MetadataProperties
+			.Where(mp => mp.Name == "http://www.konamiman.com/EntityModelExtraAttributes:" + metadataName)
+			.SingleOrDefault();
+		
+		return metadata == null ?
+			"" :
+			XElement.Parse(metadata.Value.ToString()).Value;
+	}
+	
+	private string[] SplitInLines(string value)
+	{
+		return value.Split(new [] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+	}
+	
+	private string JoinToSingleLine(string[] values)
+	{
+		var value = string.Join(Environment.NewLine, values);
+		return value;
+	}
+	
+	void WriteLines(string[] lines, int indentLevel = -1)
+	{
+		foreach(var line in lines) {
+			if(indentLevel != -1) {
+				Write(new String(' ', indentLevel * INDENT_SIZE));
+			}
+			Write(line + Environment.NewLine);
+		}
+	}
+
+}
+
+#>

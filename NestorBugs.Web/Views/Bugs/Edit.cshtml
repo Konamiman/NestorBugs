@@ -1,0 +1,177 @@
+﻿@model Konamiman.NestorBugs.Data.Entities.Bug
+@using Konamiman.NestorBugs.Data.Entities;
+
+@{
+    ViewBag.Title = Model.Id == 0 ? "New bug - NestorBugs" : Model.Title + " - NestorBugs";
+}
+@section Headers 
+{
+    <link href="@Url.Content("~/Content/EditBug.css")" rel="stylesheet" type="text/css" />
+}
+@section Bottom {
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.16.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Markdown.Converter.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Markdown.Sanitizer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Markdown.Editor.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EditBug.js?version=6")" type="text/javascript"></script>
+}
+
+@if(ViewBag.IsFirstBugForUser == true) {
+    <div class="info-box">
+        <h3>Thank you for submitting a bug</h3>
+        <p>Click the <span class="italic">[Help]</span> link next to the title of each section to obtain tips about how to provide useful information.</p>
+        <p><p>You can use Markdown to format the description and environment sections text. 
+        @Html.ActionLink("Click here for help on the Markdown syntax", "Markdown", "Home", null, new { target = "markdownHelp" })</p></p>
+    </div>
+}
+
+<div id="editForm">
+@using(Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    
+    if(Model.Id != 0) {
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="idToken" value="@ViewBag.IdToken" />
+    }
+    
+    @* --- Owner visible only fields --- *@
+    
+    if(ViewBag.UserIsSiteOwner == true) {
+        <div class="editor-label">
+            Bug status
+        </div>
+        
+        if(Model.Id != 0) {
+            <div class="owner-only-edition">
+                Bug id: @Model.Id
+            </div>
+        }
+    
+        <div class="owner-only-edition">
+            @Html.CheckBoxFor(bug => bug.Locked) @Html.LabelFor(bug => bug.Locked, "This bug is locked")
+        </div>
+
+        <div class="owner-only-edition">
+            @Html.LabelFor(bug => bug.DuplicateBugId, "This bug is a duplicate of id") @Html.TextBoxFor(bug => bug.DuplicateBugId)
+            @Html.ValidationMessageFor(bug => bug.DuplicateBugId)
+        </div>
+    
+        <div class="owner-only-edition">
+            @Html.LabelFor(bug => bug.Status, "Bug status is ")
+            @Html.DropDownListFor(bug => bug.Status, (IEnumerable<SelectListItem>)ViewBag.Statuses)
+        </div>
+    }
+
+    @* --- Title --- *@
+    
+    <div class="editor-label">
+        <span class="pre-editor-information-link">@Html.LabelFor(bug => bug.Title)</span><a class="editor-information-link" id="editor-information-link-title" href="javascript:ToggleHelp('title')">[Help]</a>
+        @Html.ValidationMessageFor(bug => bug.Title)
+    </div>
+    <div class="editor-information" id="editor-information-title">
+        <p>Please provide a descriptive title for the bug. Do not include the application name in the title.</p>
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(bug => bug.Title)
+    </div>
+    
+    @* --- Application --- *@
+    
+    <div class="editor-label">
+        <span class="pre-editor-information-link">@Html.LabelFor(bug => bug.ApplicationId, "Application")</span><a class="editor-information-link" id="editor-information-link-application" href="javascript:ToggleHelp('application')">[Help]</a>
+        @Html.ValidationMessageFor(bug => bug.ApplicationId)
+        @Html.ValidationMessageFor(bug => bug.ApplicationName)
+    </div>
+    <div class="editor-information" id="editor-information-application" display="none">
+        <p>Please select the aplication in which you have found the bug.<p>
+        <p>If the application is not in the list, select "Other" and write the application name in the text box.</p>
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(bug => bug.ApplicationId, (IEnumerable<SelectListItem>)ViewBag.Applications, new
+   {
+       id = "application-selector"
+   })
+        <span id="applicationName">
+            Application name:
+            @Html.TextBoxFor(bug => bug.ApplicationName)
+        </span>
+    </div>
+    
+    @* --- Application Version --- *@
+    
+    <div class="editor-label">
+        <span class="pre-editor-information-link">@Html.LabelFor(bug => bug.ApplicationVersion)</span><a class="editor-information-link" id="editor-information-link-application-version" href="javascript:ToggleHelp('application-version')">[Help]</a>
+        @Html.ValidationMessageFor(bug => bug.ApplicationVersion)
+    </div>
+    <div class="editor-information" id="editor-information-application-version">
+        <p>Please specify the version number of the application in which you have discovered the bug.</p>
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(bug => bug.ApplicationVersion)
+    </div>
+
+    @* --- Description --- *@
+    
+    <div class="editor-label">
+        <span class="pre-editor-information-link">@Html.LabelFor(bug => bug.Description)</span><a class="editor-information-link" id="editor-information-link-description" href="javascript:ToggleHelp('description')">[Help]</a>
+        @Html.ValidationMessageFor(bug => bug.Description)
+    </div>
+    <div class="editor-information" id="editor-information-description">
+        <p>Please describe the bug with detail, including the following information:</p>
+        <ul>
+            <li>Steps needed to reproduce the bug</li>
+            <li>Expected behavior of the application</li>
+            <li>Actual behavior of the application</li>
+        </ul>
+        <p>You can use Markdown to format the description text. 
+        @Html.ActionLink("[Markdown help]", "Markdown", "Home", null, new
+   {
+       target = "markdownHelp"
+   })</p>
+    </div>
+    <div class="editor-field">
+        <div id="wmd-button-bar-description"></div>
+        @Html.TextAreaFor(bug => bug.Description, new
+   {
+       id = "wmd-input-description", rows = 15
+   })
+        <div class="wmd-preview" id="wmd-preview-description"></div>
+    </div>
+    
+     @* --- Environment --- *@
+    
+    <div class="editor-label">
+        <span class="pre-editor-information-link">@Html.LabelFor(bug => bug.Environment)</span><a class="editor-information-link" id="editor-information-link-environment" href="javascript:ToggleHelp('environment')">[Help]</a>
+        @Html.ValidationMessageFor(bug => bug.Environment)
+    </div>
+    <div class="editor-information" id="editor-information-environment">
+        <p>Please describe the environment in which you have encountered the bug, including the following information:</p>
+        <ul>
+            <li>Computer type</li>
+            <li>Hardware expansions used</li>
+            <li>Operating system version</li>
+            <li>Whether you are using a real computer or an emulator</li>
+        </ul>
+        <p>You can use Markdown to format the environment text. 
+        @Html.ActionLink("[Markdown help]", "Markdown", "Home", null, new
+   {
+       target = "markdownHelp"
+   })</p>
+    </div>
+    <div class="editor-field">
+        <div id="wmd-button-bar-environment"></div>
+        @Html.TextAreaFor(bug => bug.Environment, new
+   {
+       id = "wmd-input-environment", rows = 15
+   })
+        <div class="wmd-preview" id="wmd-preview-environment"></div>
+    </div>
+    
+    <p>
+        <input type="submit" value="@(Model.Id == 0 ? "Create bug" : "Confirm changes")" />
+    </p>
+
+}
+</div>

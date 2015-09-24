@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "Markdown Help - NestorBugs";
+}
+
+@section Headers 
+{
+    <style type="text/css">
+<!--
+
+code, pre
+{
+	font-size: 1.2em;
+	background: #f0f0ff;
+}
+
+-->
+    </style>
+}
+
+<p>
+    The text editors present in NestorBugs use the Markdown syntax for the text formatting.
+    This page explains the supported markdown syntax.
+</p>
+<p>
+    Please visit the <a href="http://daringfireball.net/projects/markdown/syntax">official Markdown syntax reference page</a> for more details.
+</p>
+
+<h3 class="faqQuestion">The basics</h3>
+
+<ul>
+<li>Add 2 spaces of the end of a line to insert a line break.</li>
+
+<li>Use a blank line to separate paragraphs.</li>
+
+<li>Use _text_ or *text* for <span style="font-style: italic">italic</span>.</li>
+
+<li>Use __text__ or **text** for <span style="font-weight: bold">bold</span>.</li>
+
+<li>Use ___text___ or ***text*** for <span style="font-style: italic; font-weight: bold">bold and italic</span>.</li>
+
+<li><code>Indent a line by 4 spaces to format it as code.</code></li>
+
+<li>Use backticks <code>`like this`</code> to format a text span as code.</li>
+
+</ul>
+
+
+<h3 class="faqQuestion">Links</h3>
+
+<p>The text editor will automatically convert a URL to a link in most cases. 
+If it does not, you can force a URL to become a link by enclising it in angle brackets:
+<code>&lt;http://foo.com&gt</code>.</p>
+
+<p>To show a text other than the URL itself in the link, you can use one of these approaches:</p>
+
+<div class="faqExampleBlock">
+Take a look at <code>[The Foo site](http://foo.com/)</code></br/>
+Take a look at <code>[The Foo site][1]</code></br/>
+Take a look at <code>[The Foo site][foo]</code></br/>
+<code>[1]: http://foo.com</code></br/>
+<code>[foo]: http://foo.com</code></br/>
+</div>
+
+
+<h3 class="faqQuestion">Headers</h3>
+
+<p>Underline text with <code>=</code> to make a first level header, or with <code>-</code> to make a level two header:</p>
+
+<div class="faqExampleBlock">
+<code>Level 1 header</code><br />
+<code>==============</code><br />
+<br />
+<code>Level 2 header</code><br />
+<code>--------------</code><br />
+</div>
+
+<p>You can use also <code>#</code> marks to create headers of different levels:</p>
+
+<div class="faqExampleBlock">
+<code># Level 1 header</code><br />
+<code>## Level 2 header</code><br />
+<code>### Level 3 header</code><br />
+</div>
+
+
+<h3 class="faqQuestion">Horizontal rules</h3>
+
+<p>Put a line consisting of three or more hyphens, asterisks, or underscores to create a horizontal rule:</p>
+
+<div class="faqExampleBlock">
+<code>*****</code><br />
+<code>-----</code><br />
+<code>+++++</code><br />
+</div>
+
+
+<h3 class="faqQuestion">Lists</h3>
+
+<p>Prepend a line with <code>*</code>, <code>-</code> or <code>+</code> to make it au unordered list item:</p>
+
+<div class="faqExampleBlock">
+<code>* One list item</code><br />
+<code>- Another list item</code><br />
+<code>+ Yet another list item</code><br />
+</div>
+
+<p>To create an order list, just use numbers followed by a dot:</p>
+
+<div class="faqExampleBlock">
+<code>1. Item one</code><br />
+<code>2. Item two</code><br />
+<code>3. Item three</code><br />
+</div>
+
+<p>List items can be nested by adding 4 spaces for each indentation leve:</p>
+
+<div class="faqExampleBlock">
+<pre>1. Main item
+    * Sub item, indented four spaces
+        - Sub-sub item, indented eight spaces
+    * Sub item, indented four spaces again
+</pre>
+</div>
+
+
+<h3 class="faqQuestion">Images</h3>
+
+<p>Image links can be inserted with the same syntax of regular links, except that there must be a preceeding exclamation mark:</p>
+
+<code>![Picture of a foo](http://foo.com/simple-foo.jpg)</code>
+
+<p>In this case, the text between square brackets is the image title, which gets displayed if the browser can't show the image.</p>
+
+<p>You can use also plain HTML, which allows you to specify the display width and height of the image:</p>
+
+<code>&lt;img src="http://foo.com/simple-foo.jpg" width="100" height="100"&gt;</code>
+
+
+
+<h3 class="faqQuestion">Inline HTML</h3>
+
+<p>You can use a restricted set of HTML tags to complement the Markdown formatting capabilities. The supported tags are:</p>
+
+<div class="faqExampleBlock">
+<code>
+&lt;a&gt;<br/>
+&lt;b&gt;<br/>
+&lt;blockquote&gt;<br/>
+&lt;code&gt;<br/>
+&lt;del&gt;<br/>
+&lt;dd&gt;<br/>
+&lt;dl&gt;<br/>
+&lt;dt&gt;<br/>
+&lt;em&gt;<br/>
+&lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;<br/>
+&lt;i&gt;<br/>
+&lt;img&gt;<br/>
+&lt;kbd&gt;<br/>
+&lt;li&gt;<br/>
+&lt;ol&gt;<br/>
+&lt;p&gt;<br/>
+&lt;pre&gt;<br/>
+&lt;s&gt;<br/>
+&lt;sup&gt;<br/>
+&lt;sub&gt;<br/>
+&lt;strong&gt;<br/>
+&lt;strike&gt;<br/>
+&lt;ul&gt;<br/>
+&lt;br/&gt;<br/>
+&lt;hr/&gt;<br/>
+</code>
+</div>
+
+<p>The following attributes are allowed on the <code>&lt;img&gt;</code> tag:</p>
+
+<div class="faqExampleBlock">
+<code>
+src=""<br/>
+width="" (up to 999)<br/>
+height="" (up to 999)<br/>
+alt=""<br/>
+title=""<br/>
+</code>
+</div>
+
+<p>The following attributes are allowed on the <code>&lt;a&gt;</code> tag:</p>
+
+<div class="faqExampleBlock">
+<code>
+href=""<br/>
+title=""<br/>
+</code>
+</div>

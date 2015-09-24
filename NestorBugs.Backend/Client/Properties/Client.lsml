@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+  Name="LightSwitchApplication"
+  Version="1.0.0.0"
+  DefaultNavigationItem="!module/NavigationItems[Tasks]"
+  Shell="Microsoft.LightSwitch.RichClient:Standard"
+  Theme="Microsoft.LightSwitch.RichClient:Blue"
+  TargetPlatform="RichClient" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <Application.Methods></Application.Methods>
+  <Application.NavigationItems>
+    <ApplicationNavigationGroup
+      Name="Tasks"
+      DefaultItem="!module/NavigationItems[Tasks]/Children[Users]">
+      <ApplicationNavigationGroup.Attributes>
+        <DisplayName
+          Value="Tareas" />
+      </ApplicationNavigationGroup.Attributes>
+      <ApplicationNavigationLink
+        Command="!module/Commands[ScreenCommandShowUsers]"
+        Name="Users" />
+      <ApplicationNavigationLink
+        Command="!module/Commands[ScreenCommandShowApplications]"
+        Name="Applications" />
+      <ApplicationNavigationLink
+        Command="!module/Commands[ScreenCommandShowBugs]"
+        Name="Bugs" />
+    </ApplicationNavigationGroup>
+    <ApplicationNavigationGroup
+      Name="Administration">
+      <ApplicationNavigationGroup.Attributes>
+        <DisplayName
+          Value="Administración" />
+      </ApplicationNavigationGroup.Attributes>
+      <ApplicationNavigationLink
+        Command="Microsoft.LightSwitch.Security:!module/Commands[ScreenCommandShowRolesScreen]"
+        Name="RolesScreen" />
+      <ApplicationNavigationLink
+        Command="Microsoft.LightSwitch.Security:!module/Commands[ScreenCommandShowUsersScreen]"
+        Name="UsersScreen" />
+    </ApplicationNavigationGroup>
+  </Application.NavigationItems>
+  <Application.Attributes>
+    <ModuleNamespace
+      Namespace="LightSwitchApplication" />
+    <Partial
+      IsPrimary="True" />
+  </Application.Attributes>
+  <EntityContainerGroup
+    Name="DataWorkspace">
+    <EntityContainerGroupProperty
+      EntityContainer="Microsoft.LightSwitch.Security:SecurityData"
+      Name="SecurityData">
+      <EntityContainerGroupProperty.Attributes>
+        <Generated />
+        <DisplayName
+          Value="Datos de seguridad" />
+        <Description
+          Value="Servicio que proporciona acceso a los datos relacionados con la seguridad." />
+      </EntityContainerGroupProperty.Attributes>
+    </EntityContainerGroupProperty>
+    <EntityContainerGroupProperty
+      EntityContainer="NestorBugsData"
+      Name="NestorBugsData" />
+  </EntityContainerGroup>
+  <GlobalAttributeGroup>
+    <GlobalAttributeGroup.Attributes>
+      <Proxy
+        Target="ServiceInterface:LightSwitchServiceApplicationGroup" />
+    </GlobalAttributeGroup.Attributes>
+  </GlobalAttributeGroup>
+  <Application.Commands>
+    <ApplicationCommand
+      Name="ScreenCommandShowUsers"
+      Target="!module/Methods[ShowUsers]" />
+    <ApplicationCommand
+      Name="ScreenCommandShowApplications"
+      Target="!module/Methods[ShowApplications]" />
+    <ApplicationCommand
+      Name="ScreenCommandShowBugs"
+      Target="!module/Methods[ShowBugs]" />
+  </Application.Commands>
+</Application>
