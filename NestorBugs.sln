@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SignAllUnsignedReferences\ildasm.exe.config = SignAllUnsignedReferences\ildasm.exe.config
 		NestorBugs.snk = NestorBugs.snk
 		PostSharp.license = PostSharp.license
+		README.md = README.md
 		SignAllUnsignedReferences\SignAllUnsignedReferences.exe.config = SignAllUnsignedReferences\SignAllUnsignedReferences.exe.config
 	EndProjectSection
 EndProject
