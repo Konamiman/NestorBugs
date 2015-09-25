@@ -1,15 +1,17 @@
 # What is this?
 
-NestorBugs is a very simple web based bug tracking system for solo developers: it supports one single site administrator and an unlimited number of contributors. Contributors can publish bugs, the administrator can edit them and change their state.
+NestorBugs is a very simple web based bug tracking system for solo developers: it supports one single site administrator and an unlimited number of contributors. Contributors can publish bugs, the administrator can edit them and change their state, as well as see the error log for the site itself.
 
 It is built in ASP.NET MVC and uses [OpenId](http://openid.net) for user authentication. It uses [Elmah](https://code.google.com/p/elmah) for logging its own errors.
 
-This is an old project (2011) that was originally hosted in [CodePlex](https://www.codeplex.com); you can read the original readme file (explaining the motivation for starting the project) at the end of this one. If I had to start this project from scratch today, I would have done things differently. For example I would have used [Dapper](https://github.com/StackExchange/dapper-dot-net) instead of Entity Framework, and I would have used [Bootstrap](http://getbootstrap.com/) or a similar framework for the user interface.
+This is an old project (2011) that was originally hosted in [CodePlex](https://www.codeplex.com); you can read the original readme file (explaining the motivation for starting the project) at the end of this one. If I had to start this project from scratch today, I would have done things differently. For example I would have used [Dapper](https://github.com/StackExchange/dapper-dot-net) instead of Entity Framework (over time I tend to tend to use the simplest tools and frameworks that do the work), and I would have used [Bootstrap](http://getbootstrap.com) or a similar framework for the user interface (to ease the UI design and make the site mobile-friendly).
+
+The project is incomplete, it lacks a proper FAQ page, a comments system ([Disqus](https://disqus.com) would be a good system for that) and a lot of testing and polishing; but the basic mechanism of bug listing, publication and edition is in place.
 
 
 # How to use
 
-You need a SQL Server database for hosting the bugs and users data. Configure the `ConnectionString` and `SiteOwnerOpenId` keys in Web.config (under `applicationSettings\Konamiman.NestorBugs.Web.Properties.Settings`) and that's it, other than that it's just a regular ASP.NET MVC site that can be hosted in IIS. By the way, the database will be created automatically if it doesn't exits.
+You need a SQL Server database for hosting the bugs and users data. Configure the `ConnectionString` and `SiteOwnerOpenId` keys in Web.config (under `applicationSettings\Konamiman.NestorBugs.Web.Properties.Settings`) and that's it, it's just a regular ASP.NET MVC site that can be hosted in IIS. By the way, the database will be created automatically the first time if it doesn't exits.
 
 
 ## Testing with fake data
@@ -25,7 +27,7 @@ Now when the application runs the database will be created if it does not exist,
 
 ## Bypassing authentication
 
-To automatically login users without doing all the OpenID workflow, set the `BypassOpenIdAuthentication` key in Web.config to true. Now, in the login screen you must select the "OpenID" provider type the name of one of the existing users in the database (remove the "http://" part). If you are using fake data the names of the users are "user1", "user2", etc.
+To automatically login users without doing all the OpenID workflow, set the `BypassOpenIdAuthentication` key in Web.config to true. Now, in the login screen you must select the "OpenID" provider and type the name of one of the existing users in the database (remove the "http://" part). If you are using fake data the names of the users are "user1", "user2", etc.
 
 When authentication is bypassed the name of the site owner is always "user1", the `SiteOwnerOpenId` key is ignored.
 
